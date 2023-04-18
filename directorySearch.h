@@ -4,4 +4,4 @@
 #include<stdbool.h>
 
 
-int count_files(char *dir_path);
+int directory_search(char *dir_path,int listar, int tamano, int no_contar);

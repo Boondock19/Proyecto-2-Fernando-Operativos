@@ -5,7 +5,7 @@
 #include <sys/stat.h>
 #include <dirent.h>
 
-int count_files(char *dir_path) {
+int directory_search(char *dir_path,int listar, int tamano, int no_contar) {
     DIR *dir;
     struct dirent *ent;
     struct stat st;
@@ -26,11 +26,18 @@ int count_files(char *dir_path) {
         }
         if (S_ISREG(st.st_mode)) {
             file_count++;
+            if (listar == 1 && tamano == 0) {
+               printf("Archivo: %s \n", ent->d_name); 
+            } else if (listar == 0 && tamano == 1) {
+                printf("Tamaño: %ld KB \n", st.st_size / 1024);
+            } else if (listar == 1 && tamano == 1) {
+                printf("Archivo: %s, Tamaño: %ld KB \n", ent->d_name, st.st_size / 1024);
+            }
         } else if (S_ISDIR(st.st_mode)) {
             if (strcmp(ent->d_name, ".") == 0 || strcmp(ent->d_name, "..") == 0) {
                 continue;
             }
-            int sub_count = count_files(path);
+            int sub_count = directory_search(path,listar, tamano, no_contar);
             if (sub_count == -1) {
                 return -1;
             }
@@ -39,5 +46,11 @@ int count_files(char *dir_path) {
     }
 
     closedir(dir);
+
+    if (no_contar == 0){
+        printf("Total de archivos: %d \n", file_count);
+    }
+
     return file_count;
 }
+

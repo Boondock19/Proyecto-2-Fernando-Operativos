@@ -10,7 +10,7 @@ int main(int argc, char *argv[]) {
 
     int opt;
     char *region = NULL;
-    char *especies = NULL;
+    char *especie = NULL;
     char *tipo = NULL;
     int no_contar = 0;
     int listar = 0;
@@ -23,7 +23,7 @@ int main(int argc, char *argv[]) {
                 region = optarg;
                 break;
             case 's':
-                especies = optarg;
+                especie = optarg;
                 break;
             case 't':
                 tipo = optarg;
@@ -46,18 +46,8 @@ int main(int argc, char *argv[]) {
         nombre = argv[optind];
     }
 
-    // Aquí puedes hacer lo que necesites con las opciones y argumentos analizados
-    // Por ejemplo, imprimirlos en pantalla
-    printf("region: %s   ", region);
-    printf("especies: %s   ", especies);
-    printf("tipo: %s    ", tipo);
-    printf("no_contar: %d   ", no_contar);
-    printf("listar: %d   ", listar);
-    printf("tamano: %d   ", tamano);
-    printf("nombre: %s   ", nombre);
-
    
-    printf("Cantidad de items %d \n",count_files(region));
+    directory_search(region,listar,tamano,no_contar);
 
     return 0;
 }
