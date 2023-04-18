@@ -41,8 +41,12 @@ int main(int argc, char *argv[]) {
             case 'z':
                 tamano = 1;
                 break;
-            default:
-                break;
+        case '?':
+                fprintf(stderr, "ERROR: Comando desconocido -%c.\n", optopt);
+                exit(EXIT_FAILURE);
+        case ':':
+                fprintf(stderr, "ERROR: -%c necesita un argumento.\n", optopt);
+                exit(EXIT_FAILURE);
         }
     }
 
