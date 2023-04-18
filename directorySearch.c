@@ -5,6 +5,14 @@
 #include <sys/stat.h>
 #include <dirent.h>
 
+
+
+/*
+    Funcion para recorrer el directorio, tomando en cuenta los flags
+    de listar,tamaño y no contar.
+
+*/
+
 int directory_search(char *dir_path,int listar, int tamano, int no_contar) {
     DIR *dir;
     struct dirent *ent;
@@ -17,6 +25,12 @@ int directory_search(char *dir_path,int listar, int tamano, int no_contar) {
         return -1;
     }
 
+    /*
+        Utilizamos la struct dirent para obtener la informacion de los archivos
+        y directorios para poder imprimirlos en pantalla.
+
+    */
+
     while ((ent = readdir(dir)) != NULL) {
         char path[1024];
         sprintf(path, "%s/%s", dir_path, ent->d_name);
@@ -26,6 +40,9 @@ int directory_search(char *dir_path,int listar, int tamano, int no_contar) {
         }
         if (S_ISREG(st.st_mode)) {
             file_count++;
+            /*
+                Condicionales para saber que informacion se debe imprimir
+            */
             if (listar == 1 && tamano == 0) {
                printf("Archivo: %s \n", ent->d_name); 
             } else if (listar == 0 && tamano == 1) {
@@ -34,6 +51,10 @@ int directory_search(char *dir_path,int listar, int tamano, int no_contar) {
                 printf("Archivo: %s, Tamaño: %ld KB \n", ent->d_name, st.st_size / 1024);
             }
         } else if (S_ISDIR(st.st_mode)) {
+            /*
+                Ignoramos los directorios "." y ".." ya que esto evitaria
+                un bucle infinito al recorrer el directorio
+            */
             if (strcmp(ent->d_name, ".") == 0 || strcmp(ent->d_name, "..") == 0) {
                 continue;
             }
@@ -47,6 +68,9 @@ int directory_search(char *dir_path,int listar, int tamano, int no_contar) {
 
     closedir(dir);
 
+    /*
+        Chequeo para saber si se debe imprimir o no  los archivos
+    */
     if (no_contar == 0){
         printf("Total de archivos: %d \n", file_count);
     }

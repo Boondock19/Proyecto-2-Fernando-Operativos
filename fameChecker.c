@@ -17,6 +17,10 @@ int main(int argc, char *argv[]) {
     int tamano = 0;
     char *nombre = NULL;
 
+    /*
+        Ciclo para manejar la consola  y la entrada de los datos
+        y argumentos de los mismos
+    */
     while ((opt = getopt(argc, argv, "r:s:t:clz")) != -1) {
         switch (opt) {
             case 'r':
@@ -47,6 +51,8 @@ int main(int argc, char *argv[]) {
     }
 
    
+    // Funcion para recorrer el directorio actualmente solo logramos recorrer desde 
+    // el directorio de region sin especificar la especie y tipo.
     directory_search(region,listar,tamano,no_contar);
 
     return 0;
